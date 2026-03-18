@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <style>
+      @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .content { width: 100%; }
+  }
     * {
       margin: 0;
       padding: 0;
@@ -80,6 +84,7 @@
       border-radius: 15px;
       transition: transform 0.3s;
     }
+   
 
     .card:hover {
       transform: translateY(-10px);
@@ -106,9 +111,42 @@
     }
     .card img {
   width: 100%;
+
+
+height: 100%;
+ 
+  object-fit: cover;   /* QUAN TRỌNG */
+}
+
+    .card video {
+  width: 100%;
   height: 100%;
   object-fit: cover;   /* QUAN TRỌNG */
 }
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  height: 180px;       /* chiều cao video trong card */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000; /* nền nếu video nhỏ hơn div */
+  overflow: hidden;
+}
+
+.video-wrapper iframe {
+  width: auto;          /* giữ tỷ lệ gốc */
+  height: 100%;         /* co theo chiều cao div */
+  max-width: 100%;      /* không tràn card */
+}
+
+.video-wrapper figcaption {
+  text-align: center;
+  margin-top: 5px;
+  font-size: 14px;
+ 
+}
+
 table {
             border-collapse: collapse;
             width: 100%;
@@ -126,15 +164,20 @@ table {
   font-weight: 600;
   color: #ff4ecd;   /* trắng xanh nhẹ */
         }
-
-.skill-list .tittle{
-  color: #ff4ecd;           /* màu CHO SỐ + ĐỀ */
+        .custom-list {
+  list-style: none;   /* ẩn bullet */
+  padding-left: 0;
+}
+        .custom-list li .title {
+  color: #ff4ecd;    /* màu vàng cho tiêu đề */
+  font-weight: bold;
 }
 
-.skill-list .content {
-  color: #E6e6e6;           /* nội dung màu khác */
-  margin-top: 4px;
+.custom-list li .content {
+  color: #e6e6e6;    /* nội dung khác màu, ví dụ trắng */
+  margin-left: 20px; /* thụt vào cho dễ nhìn */
 }
+
 p {
   line-height: 1.5;        /* khoảng cách GIỮA CÁC DÒNG */
   margin-bottom: 16px;    /* khoảng cách GIỮA CÁC ĐOẠN */
@@ -198,10 +241,7 @@ button {
   padding: 8px 24px;
   font-size: 16px;
 }
-.question {
-  margin-bottom: 6px;   /* sát đáp án */
-  margin-top: 24px;     /* cách câu trước */
-}
+
 .question {
   margin-top: 0;
   margin-bottom: 6px;
@@ -233,7 +273,9 @@ button {
   z-index: 99999;
   pointer-events: none;
 }
-
+.mark {
+  color: #ffd700
+}
 
 /* HIỆU ỨNG ZENITSU POP */
 @keyframes pop {
@@ -245,6 +287,17 @@ button {
     transform: scale(1);
     opacity: 1;
   }
+}
+figure {
+  display: inline-block;
+  text-align: center;
+  margin: 10px;
+}
+
+figcaption {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #e6e6e6;
 }
   </style>
 </head>
@@ -262,9 +315,9 @@ button {
 <nav>
   <a href="#about">Giới thiệu</a>
   <a href="#skills">Kỹ năng</a>
-  <a href="#gallery">Gallery</a>
+  
   <a href="#timeline">Hành trình</a>
-
+  <a href="#gallery">Gallery</a>
   <a href="#feedback">Khảo sát</a>
 </nav>
 
@@ -307,8 +360,12 @@ button {
 <p><h4>Ngoại hình</h4>
 <p>Zenitsu là một thiếu niên có mái tóc ngắn màu vàng, với đôi mắt vàng kim cùng cặp chân mày rậm. Cậu mặt bộ đồng phục diệt quỷ tiêu chuẩn màu đen với bộ haori màu vàng có hoa văn nhiều hình tam giác nhỏ màu trắng.</p>
 <h4>Tính cách</h4>
-<p>Zenitsu là một người <u>nhút nhát</u>, cậu liên tục tuyên bố rằng mình không còn sống được bao lâu do công việc quá nguy hiểm là trở thành kiếm sĩ diệt quỷ. Zenitsu cũng rất <u>mê gái</u> và luôn sa vào những cô gái mà cậu cho là dễ thương, yêu cầu họ kết hôn với cậu ta nhiều đến mức khiến người khác khó chịu.</p>
-<p>Zenitsu rất tôn trọng và ngưỡng mộ đồng đội, đặc biệt là với người thầy quá cố của mình, Shihan. Khi Zenitsu trở nên <u>nghiêm túc và tập trung</u>, cậu hầu như dẹp bỏ phần nhút nhát của con người mình và chiến đấu với một nhân cách hoàn toàn khác.</p>
+<p>Zenitsu là một người <mark>nhút nhát</mark>, cậu liên tục tuyên bố rằng mình không còn sống được bao lâu do công việc quá nguy hiểm là trở thành kiếm sĩ diệt quỷ. Zenitsu cũng rất <mark>mê gái</mark> và luôn sa vào những cô gái mà cậu cho là dễ thương, yêu cầu họ kết hôn với cậu ta nhiều đến mức khiến người khác khó chịu.</p>
+<p>Zenitsu rất tôn trọng và ngưỡng mộ đồng đội, đặc biệt là với người thầy quá cố của mình, Shihan. Khi Zenitsu trở nên <mark>nghiêm túc và tập trung</mark>, cậu hầu như dẹp bỏ phần nhút nhát của con người mình và chiến đấu với một nhân cách hoàn toàn khác.</p>
+<p><h4>Tiểu sử</h4>
+  <p>Khi Zenitsu còn là một đứa trẻ, cậu bị một người phụ nữ lừa gạt và buộc phải gánh một khoản nợ cực kì lớn. Trong lúc khủng hoảng, cậu đã gặp được Ông Kuwajima Jigorou (cựu Minh Trụ), người đã cứu giúp cậu khỏi quãng thời gian khó khăn.</p>
+<p>Ông quyết định sẽ huấn luyện Zenitsu thành kiếm sĩ diệt quỷ cùng với đại đệ tử của mình, Kaigaku. Trong một ngày luyện tập mệt nhử, Zenitsu đã trốn trên một cái cây vì cảm thấy mình đã làm Ông thất vọng, đột nhiên một tia sét đánh trúng cậu, khiến tóc và lông mày của cậu chuyển thành màu vàng.</p>
+<p>Zenitsu và Kaigaku rất ghét nhau, tuy nhiên Zenitsu vẫn tôn trọng Kaigaku với tư cách như một huynh đệ đồng môn. Với mong muốn chiến đấu bên cạnh Kaigaku, cậu đã tự sáng tạo ra một thức mới của Hơi Thở của Sấm Sét, có tên "Hỏa Lôi Thần".</p>
 </section>
 
 <section id="skills">
@@ -324,15 +381,15 @@ button {
     </div>
     
   </div>
-  <ol class="skill-list">
-    <li><p><h4>Khả năng tự nhiên:</h4></li>
+  <ol class="custom-list">
+    <li><p><h4>1. Khả năng tự nhiên:</h4></li>
     <ul>
       <li><p><u>Thính giác nhạy bén</u>: Zenitsu có một thính giác nhạy bén, cho cậu khả năng <strong>phát hiện nguy hiểm</strong> từ âm thanh, kể cả những âm thanh nhỏ nhất. Thính giác của Zenitsu tốt đến độ cậu vẫn có thể nghe được người khác <strong>khi đang ngủ</strong>, cậu có thể nghe âm thanh từ <strong>mạch máu, nhịp tim</strong> và dễ dàng phân biệt được thứ âm thanh của người lẫn quỷ. Cậu cũng có thể nghe được <strong>tiếng lòng, cảm xúc</strong> của người khác nhờ thính giác của mình.</p></li>
       <li><p><u>Chiến đấu vô thức</u>: Zenitsu có thể chiến đấu ngay cả <strong>khi đang ngủ</strong>. Mỗi khi gặp nguy hiểm, nỗi sợ hãi của cậu vượt quá giới hạn của bản thân khiến cậu bất tỉnh. Trong lúc ngủ, Zenitsu có thể sử dụng kiếm thuật của mình hoàn toàn chỉ dựa vào bản năng. Tuy nhiên, khi dần trải qua nhiều khó khăn và nguy hiểm, Zenitsu ngày càng cải thiện cả kỹ năng và lòng can đảm theo thời gian, vì vậy cậu ngày càng ít phụ thuộc vào khả năng này.</p></li>
       <li><p><u>Tốc độ cực cao</u>: Zenitsu là một trong những kiếm sĩ <strong>nhanh nhất</strong> của Sát Quỷ Đội, cậu sở hữu một tốc độ di chuyển cực cao và phản xạ cực linh hoạt. Như khi cậu rút kiếm cắt đứt lưỡi một con quỷ cực kì nhanh gọn và chính xác. Đặc biệt khi đang dùng <strong>Hỏa Lôi Thần</strong>, tốc độ của cậu được mô tả là hoàn toàn nằm ngoài sự nhận thức.</p></li>
   </ul>
 
-    <li><h4>Kiếm Thuật:</h4></li>
+    <li><h4>2. Kiếm Thuật:</h4></li>
     <ul>
     <li><p><u>Phích Lịch Nhất Thiểm・Lục Liên</u>: Zenitsu tung ra Phích Lịch Nhất Thiểm <strong>sáu lần liên tiếp</strong>, giúp gia tăng thêm rất nhiều tốc độ và tiếp cận kẻ địch một cách nhanh chóng, đòn này thậm chí làm <strong>rung chuyển cả không gian</strong> và tạo ra <strong>tiếng sét đánh</strong> cực lớn.</p></li>
     <li><p><u>Phích Lịch Nhất Thiểm・Bát Liên</u>: <strong>Nâng cấp</strong> từ Lục Liên, Zenitsu tung ra Phích Lịch Nhất thiểm <strong>tám lần liên tiếp</strong>.</p></li>
@@ -342,12 +399,78 @@ button {
 </ol>
 </section>
 
+
+<section id="timeline">
+  <h2 class="section-title">Hành trình</h2>
+  <div class="timeline">
+    <div class="timeline-item">
+      <h3>Trận chiến ban đầu – Chuyến tàu Mugen</h3>
+      <p>Zenitsu cùng Tanjiro và Inosuke lên tàu Mugen để diệt quỷ.
+
+        Ban đầu: rất nhát, thường bị sợ hãi, không dám chiến đấu.
+        
+        Lúc bất tỉnh vì sợ hãi, Zenitsu bộc lộ Hơi thở sấm sét
+        → hạ gục nhiều quỷ thấp cấp cực nhanh, gây ấn tượng với đồng đội.</p>
+    </div>
+    <div class="timeline-item">
+      <h3>Trận chiến với quỷ tóc vàng (Kyogai / Drum Demon)</h3>
+      <p>Zenitsu chứng tỏ kỹ năng hơi thở sấm sét mạnh mẽ.
+
+        Thường chiến đấu trong trạng thái bất tỉnh → phát huy toàn bộ sức mạnh.
+        
+        Học được: tin tưởng vào bản thân, không chỉ dựa vào may mắn hay trạng thái bất tỉnh.</p>
+    </div>
+    <div class="timeline-item">
+      <h3>Trận chiến với quỷ trong rừng cùng Inosuke</h3>
+      <p>Zenitsu tiếp tục đối mặt với quỷ cấp thấp và trung cấp.
+
+        Phát triển kỹ năng phản xạ nhanh, thuần thục hơi thở sấm sét hơn.
+        
+        Hợp tác cùng Inosuke → học cách chiến đấu đồng đội, không chỉ riêng lẻ.</p>
+    </div>
+    <div class="timeline-item">
+      <h3>Trio cùng Âm Trụ đấu với anh em Thượng Huyền Lục</h3>
+      <p>Zenitsu cùng nhóm tham gia sát cánh chống Daki và Gyutaro - Thượng Huyền Lục.
+
+        Thời gian đầu: lo sợ, nhưng nhờ tinh thần đồng đội + kỹ năng hơi thở sấm sét. Chiêu Phích Lịch Nhất Thiểm phát triển cực nhanh, phối hợp uyển chuyển với đồng đội, đánh bại Daki cùng Inosuke, Tanjiro và Âm Trụ.
+        
+        
+        
+        </p>
+    </div>
+    <div class="timeline-item">
+      <h3>Solo với Kaigaku - Tân Thượng Huyền Lục</h3>
+      <p>Zenitsu gặp Kaigaku – Vị sư huynh đã trở thành quỷ.
+
+        Trận chiến cực cảm xúc:
+        
+        Zenitsu bộc lộ bản lĩnh → không còn sợ hãi như xưa.
+        
+        Hơi thở sấm sét được sử dụng thuần thục.
+        
+        Kết quả: Zenitsu chém được đầu Kaigaku bằng thức thứ 7 - Hỏa Lôi Thần do cậu tự tạo ra, chứng minh rằng anh trưởng thành hoàn toàn về kỹ năng lẫn tinh thần.
+        
+        
+        
+        </p>
+    </div>
+    <div class="timeline-item">
+      <h3>Trận cuối cùng – Trận chống Muzan</h3>
+      <p>Zenitsu hợp tác toàn đội, chiến đấu chống quỷ cấp cao nhất – Muzan.
+
+        Bộc lộ tinh thần dũng cảm, khả năng phản xạ và phối hợp đồng đội cực tốt.
+        
+        Từ nhát gan → trở thành kiếm sĩ đáng tin cậy trong mọi tình huống.</p>
+    </div>
+  </div>
+  
+</section>
 <section id="gallery">
   <h2 class="section-title">Gallery</h2>
   <audio src="bandicam-2025-12-30-13-30-39-162.mp3" controls></audio>
-    <p>Đoạn âm thanh gắn liền với các phân cảnh chiến đấu của nhân vật Zenitsu Agatsuma trong Kimetsu no Yaiba.</p>
+    <p>Đoạn âm thanh gắn liền với các phân cảnh chiến đấu của nhân vật Agatsuma Zenitsu trong Thanh Gươm Diệt Quỷ.</p>
 
-  <div class="grid">
+  <p><div class="grid">
     <div class="card">
       <img src="dd0f562d59a6f3521b643e5113e69224.jpg" >
     </div>
@@ -356,28 +479,28 @@ button {
     </div>
     <div class="card">
       <img src="322a8676d4cbf0794be7de0d97a3f837.jpg" >
-    </div>
-      </div>
+    </div></div></p>
+    <p><div class="grid">
+    <div class="card">
 
+<figure>
+  <video src="7381223265691.mp4" controls width="600"></video>
+  <figcaption>Phích Lịch Nhất Thiểm - Lục Liên</figcaption>
+</figure>
+    </div>
+    <div class="card">
+
+      <figure>
+        <video src="7381223276949.mp4" controls width="600"></video>
+        <figcaption>Phích Lịch Nhất Thiểm - Thần Tốc</figcaption>
+      </figure>
+          </div>
+        </div>
+      <p>GIF Zenitsu Agatsuma
+<iframe src="https://giphy.com/search/zenitsu.html" width="1000" height="800"></iframe>
+<p><a href="https://animevietsub.show/phim/thanh-guom-diet-quy-kimetsu-no-yaiba-i7-a3445/">Xem Thanh Gươm Diệt Quỷ để cảm nhận rõ hơn về nhân vật Agatsuma Zenitsu</a></p>
 </section>
 
-<section id="timeline">
-  <h2 class="section-title">Hành trình</h2>
-  <div class="timeline">
-    <div class="timeline-item">
-      <h3>Giai đoạn 1</h3>
-      <p>Khi Zenitsu còn là một đứa trẻ, cậu bị một người phụ nữ lừa gạt và buộc phải gánh một khoản nợ cực kì lớn. Trong lúc khủng hoảng, cậu đã gặp được Ông Kuwajima Jigorou (cựu Minh Trụ), người đã cứu giúp cậu khỏi quãng thời gian khó khăn.</p>
-    </div>
-    <div class="timeline-item">
-      <h3>Giai đoạn 2</h3>
-      <p>Ông quyết định sẽ huấn luyện Zenitsu thành kiếm sĩ diệt quỷ cùng với đại đệ tử của mình, Kaigaku. Trong một ngày luyện tập mệt nhử, Zenitsu đã trốn trên một cái cây vì cảm thấy mình đã làm Ông thất vọng, đột nhiên một tia sét đánh trúng cậu, khiến tóc và lông mày của cậu chuyển thành màu vàng.</p>
-    </div>
-    <div class="timeline-item">
-      <h3>Giai đoạn 3</h3>
-      <p>Zenitsu và Kaigaku rất ghét nhau, tuy nhiên Zenitsu vẫn tôn trọng Kaigaku với tư cách như một huynh đệ đồng môn. Với mong muốn chiến đấu bên cạnh Kaigaku, cậu đã tự sáng tạo ra một thức mới của Hơi Thở của Sấm Sét, có tên "Hỏa Lôi Thần". </p>
-    </div>
-  </div>
-</section>
 <section id="feedback">
   <h2 class="section-title">Khảo sát</h2>
   <p>
@@ -455,11 +578,10 @@ button {
     <p>Cảm ơn bạn đã phản hồi! ⚡</p>
   </div>
 </section>
-<section id="contact">
-  <h2 class="section-title">Liên hệ</h2>
-  <p><a href="https://animevietsub.show/phim/thanh-guom-diet-quy-kimetsu-no-yaiba-i7-a3445/">Xem phim đi</a></p>
+
   
-</section>
+  
+
 
 <footer>
   <p>© Agatsuma Zenitsu | Built by Ojou-sama</p>

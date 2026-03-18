@@ -4,7 +4,13 @@
   <meta charset="UTF-8" />
   <title>Sinh nhật Ojou-sama 🎂</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/style.css">
   <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
@@ -30,6 +36,14 @@
       line-height: 1.8;
       font-size: 1.1rem;
     }
+    .heroes {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;}
     .hero {
       min-height: 100vh;
       display: flex;
@@ -37,11 +51,58 @@
       justify-content: center;
       align-items: center;
       text-align: center;
+      position: relative;
+      background: url("header.jpg") no-repeat center/cover;
     }
     .hero span {
       font-size: 1.3rem;
       opacity: 0.8;
     }
+    .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+}
+
+.hero-content {
+    position: relative;
+    color: white;
+    z-index: 1;
+}
+
+.hero-title {
+    font-size: 60px;
+    font-weight: bold;
+    letter-spacing: 3px;
+
+    /* 🔥 hiệu ứng glow */
+    color: #fff;
+    text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff1493;
+}
+
+.hero-desc {
+    margin-top: 15px;
+    font-size: 18px;
+    opacity: 0.8;
+}
+
+.hero-btn {
+    display: inline-block;
+    margin-top: 25px;
+    padding: 12px 25px;
+
+    background: #ff1493;
+    color: white;
+    text-decoration: none;
+    border-radius: 25px;
+
+    transition: 0.3s;
+}
+
+.hero-btn:hover {
+    background: #ff69b4;
+    transform: scale(1.05);
+}
     .timeline {
       border-left: 3px solid #ffd479;
       padding-left: 30px;
@@ -69,19 +130,153 @@
       padding: 40px;
       opacity: 0.6;
     }
+    .container {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+}
+.header {
+  background: #111;
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 40px;
+  height: 40px;
+}
+
+.logo span {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+/* NAV */
+.nav {
+  display: flex;
+  gap: 25px;
+}
+
+.nav a {
+  text-decoration: none;
+  color: white;
+  transition: 0.3s;
+}
+
+.nav a:hover {
+  color: #ff8fab;
+}
+
+/* BUTTON */
+.btn {
+  background: #ff69b4;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+/* MENU MOBILE */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .nav {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #111;
+    flex-direction: column;
+    display: none;
+  }
+
+  .nav.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
   </style>
 </head>
 <body>
 
 <!-- HERO -->
-<section class="hero">
+<section class="heroes">
   <h1>Chúc mừng sinh nhật Ojou-sama 🎉</h1>
   <span>27 / 03 / 2008</span>
   <p style="max-width: 600px; margin-top: 30px;">
     Hôm nay là ngày thế giới được phép xoay quanh một người đặc biệt.
   </p>
 </section>
+<header class="header">
+  <div class="container">
 
+    <!-- LOGO -->
+    <div class="logo">
+      <!-- Thay logo.png bằng file của mày -->
+      <img src="download.png" alt="Logo">
+      <span>Trungsinh-chapter18</span> <!-- đổi tên web -->
+    </div>
+
+    <!-- MENU -->
+    <nav class="nav">
+      <a href="#">Vy xinh đẹp</a>
+      <a href="#">Vy lậm anime</a>
+      <a href="#">Vy nghẹo game</a>
+      <a href="#">Vy tài năng</a>
+    </nav>
+
+    <!-- NÚT -->
+    <div class="actions">
+      <button class="btn">Invitation</button>
+    </div>
+
+    <!-- MENU MOBILE -->
+    <div class="menu-toggle" id="menu-toggle">
+      ☰
+    </div>
+
+  </div>
+</header>
+<section class="hero">
+  <!-- 🔻 THAY ẢNH BACKGROUND Ở CSS -->
+  
+  <div class="hero-overlay"></div>
+
+  <div class="hero-content">
+      <!-- 🔻 TÊN / BIỆT DANH -->
+      <h1 class="hero-title">IT'S MY BIRTHDAY!</h1>
+
+      <!-- 🔻 CÂU CHÂM NGÔN -->
+      <p class="hero-desc">
+          Protect the weak. Break the bully. Stay legendary.
+      </p>
+
+      <!-- 🔻 NÚT (có thể dẫn link khác) -->
+      <a href="#" class="hero-btn">Explore</a>
+  </div>
+</section>
 <!-- GIỚI THIỆU -->
 <section>
   <h2>Ojou-sama là ai?</h2>
@@ -155,3 +350,12 @@
 
 </body>
 </html>
+<script>
+const toggle = document.getElementById("menu-toggle");
+const nav = document.querySelector(".nav");
+
+toggle.addEventListener("click", () => {
+  nav.classList.toggle("active");
+});
+src="js/script.js"
+</script>

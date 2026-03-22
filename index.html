@@ -320,8 +320,18 @@
   display: none;
   font-size: 24px;
   cursor: pointer;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  transform: translateX(-100%); /* Ẩn bên trái */
+  transition: transform 0.3s ease;
+  background: #333;
+  color: white;
+  padding: 20px;
 }
-
+.menu-toggle.active {
+  transform: translateX(0); /* Slide ra */
+}
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .nav {

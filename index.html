@@ -52,17 +52,33 @@
       align-items: center;
       text-align: center;
       position: relative;
-      background: url("headerr.jpg") no-repeat center/cover;
-    }
-    .hero span {
-      font-size: 1.3rem;
-      opacity: 0.8;
-    }
-    .hero-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+      .hero-img {
+  position: absolute;
+  inset: 0;
+  background: url("headerr.jpg") no-repeat center 20%/cover;
 }
+      
+    }
+    .hero-left {
+  flex: 1;
+  background: url("headerr.jpg") no-repeat center 20%/cover;
+}
+
+.hero-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 50px;
+  background: #0f0f0f;
+  color: white;
+}
+
+.hero-right h1 {
+  font-size: 50px;
+  color: #ff69b4;
+}
+ 
 
 .hero-content {
     position: relative;
@@ -85,7 +101,22 @@
     font-size: 18px;
     opacity: 0.8;
 }
+.btn {
+  display: inline-block;
+  margin-top: 25px;
+  padding: 12px 25px;
 
+  background: #ff1493;
+  border-radius: 25px;
+  color: white;
+  text-decoration: none;
+
+  transition: 0.3s;
+}
+
+.btn:hover {
+  transform: scale(1.05);
+}
 .hero-btn {
     display: inline-block;
     margin-top: 25px;
@@ -102,6 +133,42 @@
 .hero-btn:hover {
     background: #ff69b4;
     transform: scale(1.05);
+}
+.hero-card {
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+
+  padding: 30px 50px;
+  border-radius: 20px;
+
+  text-align: center;
+  color: white;
+}
+.hero-card h1 {
+  color: #ff69b4;
+  font-size: 40px;
+}
+
+.hero-card p {
+  margin: 10px 0;
+  opacity: 0.8;
+}
+
+/* Nút */
+.hero-card a {
+  display: inline-block;
+  margin-top: 15px;
+  padding: 10px 20px;
+
+  background: #ff1493;
+  border-radius: 20px;
+  color: white;
+  text-decoration: none;
 }
     .timeline {
       border-left: 3px solid #ffd479;
@@ -189,6 +256,64 @@
   cursor: pointer;
   border-radius: 5px;
 }
+.popup {
+  display: flex;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s ease;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  pointer-events: none; 
+}
+
+
+.popup img {
+  max-width:  80%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+ overflow:hidden;
+}
+.popup.show {
+  opacity: 1;
+  visibility: visible;
+  display: flex;
+  pointer-events: auto;
+  background: rgba(0,0,0,0.6);
+}
+
+/* khung ảnh */
+.popup-content {
+  transform: scale(0.8);
+  transition: transform 0.4s ease;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 90%;
+  max-height: 90%;
+  overflow: hidden;
+}
+
+.popup.show .popup-content {
+  transform: scale(1);
+}
+.popup video {
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+  display: block;
+}
 
 /* MENU MOBILE */
 .menu-toggle {
@@ -217,6 +342,53 @@
     display: block;
   }
 }
+.poster {
+  max-width: 900px;
+  margin: 80px auto;
+  background: #111;
+  border-radius: 20px;
+  overflow: hidden;
+
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+}
+.poster-img img {
+  width: 100%;
+  height: 500px;
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+/* Text */
+.poster-content {
+  padding: 40px;
+  text-align: center;
+  color: white;
+}
+
+.poster-content h1 {
+  font-size: 42px;
+  color: #ff69b4;
+  letter-spacing: 2px;
+}
+.tagline {
+  margin-top: 15px;
+  opacity: 0.8;
+}
+.close {
+  position: absolute;
+  top: -40px;
+  right: 0px;
+  font-size: 30px;
+  color: white;
+  cursor: pointer;
+}
+video {
+  max-width: 80vw;
+  max-height: 80vh;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+}
+.no-scroll { overflow: hidden; }
   </style>
 </head>
 <body>
@@ -249,9 +421,15 @@
 
     <!-- NÚT -->
     <div class="actions">
-      <button class="btn">Invitation</button>
+      <button class="btn" id="openBtn">Invitation</button>
     </div>
-
+    
+    <!-- Popup ảnh -->
+    <div id="Popup" class="popup">
+      <img id="myImage" src="card.png" alt="popup img">
+    </div>
+    
+  
     <!-- MENU MOBILE -->
     <div class="menu-toggle" id="menu-toggle">
       ☰
@@ -259,23 +437,34 @@
 
   </div>
 </header>
-<section class="hero">
-  <!-- 🔻 THAY ẢNH BACKGROUND Ở CSS -->
-  
-  <div class="hero-overlay"></div>
+<section class="poster">
 
-  <div class="hero-content">
-      <!-- 🔻 TÊN / BIỆT DANH -->
-      <h1 class="hero-title">IT'S MY BIRTHDAY!</h1>
+  <!-- ẢNH -->
+  <div class="poster-img">
+      <img src="header.jpg">
+  </div>
 
-      <!-- 🔻 CÂU CHÂM NGÔN -->
-      <p class="hero-desc">
+  <!-- TEXT -->
+  <div class="poster-content">
+      <h1>IT'S MY BIRTHDAY!</h1>
+      <p class="tagline">
           Protect the weak. Break the bully. Stay legendary.
       </p>
 
-      <!-- 🔻 NÚT (có thể dẫn link khác) -->
-      <a href="#" class="hero-btn">Explore</a>
+      <a href="#" class="btn" onclick="openVideo(event)">Explore</a>
+
+<div id="videoPopup" class="popup">
+  <div class="popup-content">
+    
+
+    <video id="myVideo" controls>
+      <source src="7627230125656.mp4" type="video/mp4">
+    </video>
+
   </div>
+</div>
+  </div>
+
 </section>
 <!-- GIỚI THIỆU -->
 <section>
@@ -358,4 +547,47 @@ toggle.addEventListener("click", () => {
   nav.classList.toggle("active");
 });
 src="js/script.js"
+function openVideo(e) {
+  e.preventDefault();
+  document.body.classList.add("no-scroll");
+
+  const videoPopup = document.getElementById("videoPopup");
+  const video = document.getElementById("myVideo");
+
+  videoPopup.classList.add("show");
+
+  // ⚡ Tự play video khi popup mở
+  video.play();
+}
+
+/* Click ngoài popup để đóng */
+document.getElementById("videoPopup").addEventListener("click", function(e) {
+  if (e.target === this) {
+    const video = document.getElementById("myVideo");
+    this.classList.remove("show");
+    document.body.classList.remove("no-scroll");
+
+    // Pause và reset video
+    video.pause();
+    video.currentTime = 0;
+  }
+});
+
+
+const btn = document.getElementById("openBtn");
+  const popup = document.getElementById("Popup");
+
+  // Mở popup
+  btn.addEventListener("click", () => {
+    popup.classList.add("show");
+    document.body.classList.add("no-scroll");
+  });
+
+  // Click ngoài ảnh để đóng
+  popup.addEventListener("click", e => {
+    if (e.target === popup) {
+      popup.classList.remove("show");
+      document.body.classList.remove("no-scroll");
+    }
+  });
 </script>

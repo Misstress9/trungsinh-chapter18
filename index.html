@@ -32,6 +32,12 @@
       font-size: 2rem;
       color: #ffd479;
     }
+    .line {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #ffd479, transparent);
+  margin: 10px auto 40px;
+}
     p {
       line-height: 1.8;
       font-size: 1.1rem;
@@ -188,6 +194,11 @@
   max-width: 1200px;
   margin: auto;
   padding: 0 20px;
+  
+  display: flex;
+  align-items: center;      /* 🔥 căn giữa theo chiều dọc */
+  justify-content: space-between;
+
 }
 .header {
   background: #111;
@@ -242,6 +253,17 @@
   color: white;
   cursor: pointer;
   border-radius: 5px;
+}
+.navbar-btn {
+  background: #ff69b4;
+  border: none;
+  padding: 8px 16px;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  height: 36px;
 }
 .popup {
   display: flex;
@@ -430,6 +452,27 @@ video {
 .item:hover::after {
   opacity: 1;
 }
+.desc {
+  margin-top: 50px;
+}
+
+.desc p {
+  opacity: 0.8;
+  margin: 8px 0;
+  letter-spacing: 1px;
+}
+
+.quote {
+  margin-top: 15px;
+  font-style: italic;
+  opacity: 1;
+}
+.gallery-section {
+  padding: 80px 10%;
+  background: #0f0f0f;
+  color: white;
+  text-align: center;
+}
   </style>
 </head>
 <body>
@@ -448,7 +491,7 @@ video {
     <!-- LOGO -->
     <div class="logo">
       <img src="download.png" alt="Logo">
-      
+      <span>Trungsinh-chapter18</span>
     </div>
   
     <!-- MENU -->
@@ -461,7 +504,7 @@ video {
   
     <!-- GỘP NÚT + MENU -->
     <div class="right">
-      <button class="btn" id="openBtn">Invitation</button>
+      <button class="navbar-btn" id="openBtn">Invitation</button>
   
       <div class="menu-toggle" id="menu-toggle">
         ☰
@@ -505,8 +548,13 @@ video {
 
 </section>
 <!-- GIỚI THIỆU -->
-<section>
-  <h2>Vy xinh đẹp</h2>
+<section class="gallery-section">
+
+  <div class="title">
+    <h2>Vy xinh đẹp</h2>
+    <div class="line"></div>
+  </div>
+
   <div class="grid">
     <div class="item"><img src="2026.01.10 Shu7969.jpg"></div>
     <div class="item"><img src="2026.01.10 Shu7974.jpg"></div>
@@ -518,12 +566,13 @@ video {
     <div class="item"><img src="2026.01.10 Shu8101.jpg"></div>
     <div class="item"><img src="2026.01.10 Shu8112.jpg"></div>
   </div>
-  <p>
-    <!-- CHỖ NÀY: giới thiệu ngắn về bản thân mày (tính cách, vibe, câu nói đặc trưng) -->
-    [BẢN LĨNH, PHÓNG KHOÁNG, LẠI CÒN BISEXUAL.]</p>
-   <p> [FREE VIBE, MIỄN KHÔNG CRINGE, KHÔNG CHÊ MÓN NÀO.]</p>
-    <p>["ĐƯỢC SINH RA VỚI SỨC MẠNH VƯỢT TRỘI, TA CHỌN SỬ DỤNG NÓ ĐỂ BẢO VỆ KẺ YẾU HƠN MÌNH."]
-  </p>
+
+  <div class="desc">
+    <p>BẢN LĨNH, PHÓNG KHOÁNG, LẠI CÒN BISEXUAL.</p>
+    <p>FREE VIBE, MIỄN KHÔNG CRINGE, KHÔNG CHÊ MÓN NÀO.</p>
+    <p class="quote">"ĐƯỢC SINH RA VỚI SỨC MẠNH VƯỢT TRỘI, TA CHỌN SỬ DỤNG NÓ ĐỂ BẢO VỆ KẺ YẾU HƠN MÌNH."</p>
+  </div>
+
 </section>
 
 <!-- DÒNG THỜI GIAN -->

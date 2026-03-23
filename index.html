@@ -329,7 +329,9 @@
   color: white;
   padding: 20px;
 }
-
+.menu-toggle.active {
+  transform: translateX(0); /* Slide ra */
+}
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .nav {
@@ -548,7 +550,7 @@ video {
 </body>
 </html>
 <script>
-
+const toggle = document.getElementById("menu-toggle");
 function toggleMenu() {
   document.getElementById("menu-toggle").classList.toggle("active");
 }

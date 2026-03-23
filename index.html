@@ -163,13 +163,7 @@
   color: white;
   text-decoration: none;
 }
-    .timeline {
-      border-left: 3px solid #ffd479;
-      padding-left: 30px;
-    }
-    .timeline-item {
-      margin-bottom: 40px;
-    }
+   
     .gallery {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -315,11 +309,9 @@
   cursor: pointer;
   position: absolute;
   transform: translateX(-100%); /* Ẩn bên trái */
-  transition: transform 0.3s ease;
+  
 
-  background: #333;
-  color: white;
-  padding: 20px;
+
 }
 
 /* RESPONSIVE */
@@ -332,11 +324,16 @@
     background: #111;
     flex-direction: column;
     display: none;
+    
+  max-height: 0;
+  overflow: hidden;
+  transition: 0.4s ease;
+
   }
 
   .nav.active {
-    display: flex;
-  }
+  max-height: 300px;
+}
 
   .menu-toggle {
     display: block;
@@ -389,6 +386,48 @@ video {
   box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 .no-scroll { overflow: hidden; }
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+.luxury-gallery {
+  padding: 60px 10%;
+  background: #111;
+}
+.item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+}
+
+/* Ảnh */
+.item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  transition: 0.5s ease;
+}
+
+/* Overlay */
+.item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+  opacity: 0;
+  transition: 0.5s;
+}
+
+/* Hover effect */
+.item:hover img {
+  transform: scale(1.15);
+}
+
+.item:hover::after {
+  opacity: 1;
+}
   </style>
 </head>
 <body>
@@ -468,29 +507,37 @@ video {
 </section>
 <!-- GIỚI THIỆU -->
 <section>
-  <h2>Ojou-sama là ai?</h2>
+  <h2>Vy xinh đẹp</h2>
+  <div class="grid">
+    <div class="item"><img src="2026.01.10 Shu7969.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu7974.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu8017.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu8030.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu7919.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu8074.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu8078.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu8101.jpg"></div>
+    <div class="item"><img src="2026.01.10 Shu8112.jpg"></div>
+  </div>
   <p>
     <!-- CHỖ NÀY: giới thiệu ngắn về bản thân mày (tính cách, vibe, câu nói đặc trưng) -->
-    [CHÈN GIỚI THIỆU CÁ NHÂN Ở ĐÂY]
+    [BẢN LĨNH, PHÓNG KHOÁNG, LẠI CÒN BISEXUAL.]</p>
+   <p> [FREE VIBE, MIỄN KHÔNG CRINGE, KHÔNG CHÊ MÓN NÀO.]</p>
+    <p>["ĐƯỢC SINH RA VỚI SỨC MẠNH VƯỢT TRỘI, TA CHỌN SỬ DỤNG NÓ ĐỂ BẢO VỆ KẺ YẾU HƠN MÌNH."]
   </p>
 </section>
 
 <!-- DÒNG THỜI GIAN -->
 <section>
-  <h2>Dòng thời gian đáng nhớ</h2>
-  <div class="timeline">
-    <div class="timeline-item">
-      <h3>2008</h3>
-      <p><!-- CHỖ NÀY: sự kiện lúc sinh ra --></p>
-    </div>
-    <div class="timeline-item">
-      <h3>Những năm cấp 1 – 2 – 3</h3>
-      <p><!-- CHỖ NÀY: kỷ niệm tuổi thơ --></p>
-    </div>
-    <div class="timeline-item">
-      <h3>Hiện tại</h3>
-      <p><!-- CHỖ NÀY: con người hiện tại của mày --></p>
-    </div>
+  <h2>Vy lậm anime</h2>
+  <div class="grid">
+    <div class="item"><img src="z7647295068319_0bcc9d911702f81e7227822233ca75e3.jpg"></div>
+    <div class="item"><img src="z7647299413899_faf58a89af45fbdf2fe723c38cfce2f4.jpg"></div>
+    
+    <div class="item"><img src="z7650695543597_b37bcb68eaad635409eb675bd2030688.jpg"></div>
+    <div class="item"><img src="z7650699983329_e1da525bbd12fcaf776b326e6cae63c0.jpg"></div>
+    <div class="item"><img src="z7650702744688_cc711790c857177a5bd323f6224b5983.jpg"></div>
+    <div class="item"><img src="z7650755912289_99b7258cc59ed23c256f4d0922947ce9.jpg"></div>
   </div>
 </section>
 

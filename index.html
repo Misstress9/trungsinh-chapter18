@@ -343,7 +343,7 @@
 
 /* MENU MOBILE */
 .menu-toggle {
-  display: block; /* desktop ẩn */
+  display: none; /* desktop ẩn */
 
   font-size: 24px;
   cursor: pointer;
@@ -356,19 +356,23 @@
 /* RESPONSIVE */
 @media (max-width: 768px) {
   .nav {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    width: 100%;
-    background: #111;
+  position: absolute;
+  top: 70px;
+  left: 0;
+  width: 100%;
+  background: #111;
 
-    flex-direction: column;
+  display: flex;
+  flex-direction: column; /* 🔥 menu dọc */
 
-    max-height: 0;        /* Ẩn */
-    overflow: hidden;
+  max-height: 0;
+  overflow: hidden;
 
-    transition: max-height 0.4s ease;
-  }
+  transition: max-height 0.4s ease;
+
+  align-items: flex-start; /* 🔥 căn trái cho menu */
+  padding: 0 16px; /* cho đẹp */
+}
 
   .nav.active {
     max-height: 300px;   /* Mở (tùy nội dung) */
@@ -608,7 +612,7 @@ video {
 <section>
   <h2>Vy nghẹo game</h2>
   <div class="gallery">
-    <div>[ẢNH 1]</div>
+    <div><z7627230045138_41f38921cd18577674455c9bbfa19cf9.jpg></div>
     <div>[ẢNH 2]</div>
     <div>[ẢNH 3]</div>
     <div>[ẢNH 4]</div>

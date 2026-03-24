@@ -269,6 +269,12 @@
  
   margin-left: 8px;
 }
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* dồn về bên phải */
+  gap: 8px; /* khoảng cách giữa 2 thằng */
+}
 .popup {
   display: flex;
   position: fixed;
@@ -335,9 +341,7 @@
   font-size: 24px;
   cursor: pointer;
 
-  position: absolute;
-  right: 20px;  /* nằm bên phải */
-  top: 20px;
+ 
 
   z-index: 1000; /* nổi lên trên */
 }

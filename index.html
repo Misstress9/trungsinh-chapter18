@@ -322,8 +322,15 @@
   max-width: 90%;
   max-height: 90%;
   overflow: hidden;
-}
 
+  
+}
+.popup-content video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* crop + phóng to */
+  aspect-ratio: 16 / 9; /* giữ tỉ lệ */
+}
 .popup.show .popup-content {
   transform: scale(1);
 }
@@ -547,7 +554,7 @@ video {
     
 
     <video id="myVideo" controls>
-      <source src="7627230125656.mp4" type="video/mp4">
+      <source src="7654446294720.mp4" type="video/mp4">
     </video>
 
   </div>
@@ -655,15 +662,24 @@ toggle.addEventListener("click", () => {
 src="js/script.js"
 function openVideo(e) {
   e.preventDefault();
-  document.body.classList.add("no-scroll");
 
   const videoPopup = document.getElementById("videoPopup");
   const video = document.getElementById("myVideo");
 
   videoPopup.classList.add("show");
 
-  // ⚡ Tự play video khi popup mở
-  video.play();
+  // 👉 thử fullscreen
+  if (video.requestFullscreen) {
+    video.requestFullscreen();
+  } else if (video.webkitEnterFullscreen) {
+    // iPhone Safari
+    video.webkitEnterFullscreen();
+  }
+
+  // 👉 delay rồi play
+  setTimeout(() => {
+    video.play().catch(() => {});
+  }, 1000);
 }
 
 /* Click ngoài popup để đóng */

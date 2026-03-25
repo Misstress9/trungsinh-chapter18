@@ -170,21 +170,7 @@
   text-decoration: none;
 }
    
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 16px;
-    }
-    .gallery div {
-      background: #222;
-      border-radius: 12px;
-      height: 180px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #aaa;
-      font-size: 0.9rem;
-    }
+  
     footer {
       text-align: center;
       padding: 40px;
@@ -261,13 +247,6 @@
   color: white;
   cursor: pointer;
   border-radius: 5px;
-  display: flex;
-  align-items: center;
-  height: 36px;
-  display: flex;
-  align-items: center;
- 
-  margin-left: 8px;
 }
 .navbar {
   display: flex;
@@ -343,14 +322,9 @@
 
 /* MENU MOBILE */
 .menu-toggle {
-  display: none; /* desktop ẩn */
-
+  display: none;
   font-size: 24px;
   cursor: pointer;
-
- 
-
-  z-index: 1000; /* nổi lên trên */
 }
 
 /* RESPONSIVE */
@@ -434,6 +408,21 @@ video {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
 }
+.pinterest .grid {
+  grid-auto-rows: 10px; /* trick quan trọng */
+  
+}
+
+.pinterest .item {
+  grid-row: span 20; /* mỗi item cao khác nhau */
+}
+
+/* ví dụ random height */
+.pinterest .item:nth-child(1) { grid-row: span 25; }
+.pinterest .item:nth-child(2) { grid-row: span 15; }
+.pinterest .item:nth-child(3) { grid-row: span 30; }
+.pinterest .item:nth-child(4) { grid-row: span 18; }
+.pinterest .item:nth-child(5) { grid-row: span 22; }
 .luxury-gallery {
   padding: 60px 10%;
   background: #111;
@@ -451,6 +440,12 @@ video {
   object-fit: cover;
 
   transition: 0.5s ease;
+}
+.item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  
 }
 
 /* Overlay */
@@ -609,16 +604,24 @@ video {
 </section>
 
 <!-- BỘ SƯU TẬP KHOẢNH KHẮC -->
-<section>
+<section class="pinterest">
   <h2>Vy nghẹo game</h2>
-  <div class="gallery">
-    <div><z7627230045138_41f38921cd18577674455c9bbfa19cf9.jpg></div>
-    <div>[ẢNH 2]</div>
-    <div>[ẢNH 3]</div>
-    <div>[ẢNH 4]</div>
+
+  <div class="grid">
+    <div class="item"><img src="z7627230045138_41f38921cd18577674455c9bbfa19cf9.jpg" alt=""></div>
+    <div class="item"><img src="z7627230050551_f345fa4d95d7102083b7956b6b46942b.jpg" alt=""></div>
+    <div class="item"><img src="z7647276298825_993f90fb2e2e5dc5b1e44a97ee689c67.jpg" alt=""></div>
+    <div class="item"><img src="z7627230038157_cb1683fb597699278be4a5d958e5081f.jpg" alt=""></div>
+
+    <div class="item">
+      <video controls>
+        <source src="7627230125656.mp4" type="video/mp4">
+      </video>
+    </div>
   </div>
+
   <p style="text-align:center; opacity:0.7; margin-top:16px;">
-    <!-- CHỖ NÀY: chú thích ảnh -->
+    <!-- chú thích -->
   </p>
 </section>
 
@@ -716,4 +719,14 @@ const btn = document.getElementById("openBtn");
       document.body.classList.remove("no-scroll");
     }
   });
+  const items = document.querySelectorAll('.pinterest .item');
+
+items.forEach(item => {
+  const img = item.querySelector('img, video');
+  img.onload = () => {
+    const rowHeight = 10;
+    const rowSpan = Math.ceil(img.offsetHeight / rowHeight);
+    item.style.gridRowEnd = `span ${rowSpan}`;
+  };
+});
 </script>

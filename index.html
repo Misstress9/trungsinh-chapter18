@@ -218,7 +218,11 @@
 /* NAV */
 .nav {
   display: flex;
-  gap: 25px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #111;
+  color: white;
 }
 
 .nav a {
@@ -251,8 +255,15 @@
 .navbar {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* dồn về bên phải */
-  gap: 8px; /* khoảng cách giữa 2 thằng */
+  justify-content: space-between;
+  padding: 10px 20px;
+  background: #111;
+  color: white;
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 .popup {
   display: flex;
@@ -319,41 +330,56 @@
   border-radius: 10px;
   display: block;
 }
+.nav-menu {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
 
+.nav-menu li {
+  cursor: pointer;
+}
+
+/* phải */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 /* MENU MOBILE */
 .menu-toggle {
   display: none;
-  font-size: 24px;
+  font-size: 20px;
+  background: none;
+  border: none;
+  color: white;
   cursor: pointer;
 }
 
 /* RESPONSIVE */
 @media (max-width: 768px) {
-  .nav {
-  position: absolute;
-  top: 70px;
-  left: 0;
-  width: 100%;
-  background: #111;
+  .nav-menu {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: #111;
+    flex-direction: column;
+    width: 200px;
+    padding: 10px;
+    display: none;
+  }
 
-  display: flex;
-  flex-direction: column; /* 🔥 menu dọc */
-
-  max-height: 0;
-  overflow: hidden;
-
-  transition: max-height 0.4s ease;
-
-  align-items: flex-start; /* 🔥 căn trái cho menu */
-  padding: 0 16px; /* cho đẹp */
-}
-
-  .nav.active {
-    max-height: 300px;   /* Mở (tùy nội dung) */
+  .nav-menu.active {
+    display: flex;
   }
 
   .menu-toggle {
     display: block;
+    order: 1; /* 👈 đứng trước */
+  }
+
+  .btn {
+    order: 2; /* 👈 đứng sau */
   }
 }
 .poster {
@@ -407,17 +433,94 @@ video {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  overflow: visible;
+}
+.grid .item.active {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.05);
+  width: 80vw;
+  height: 80vh;
+  z-index: 1001;
+  background: black;
+}
+.grid .item.active img,
+.grid .item.active video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pinterest {
+  position: relative;
+  width: 100%;
+  overflow: visible;
 }
 .pinterest .grid {
-  grid-auto-rows: 10px; /* trick quan trọng */
   
-}
+  margin-top: 100px; /* chỉnh tùy header cao bao nhiêu */
+  display: grid;
+  grid-template-columns: repeat(3, 250px); /* hoặc auto */
+  justify-content: center; /* 🔥 căn giữa ngang */
+  gap: 20px;
 
+}
 .pinterest .item {
-  grid-row: span 20; /* mỗi item cao khác nhau */
+  position: absolute;
+  top: 0;
+  left: 0;
+
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: grab;
 }
 
-/* ví dụ random height */
+.pinterest .item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pinterest .item video {
+  width: 100%;
+  height: auto;   /* 🔥 giữ control */
+  cursor: pointer;
+  pointer-events: auto;
+  object-fit: cover;
+}
+
+.pinterest .item:active {
+  cursor: grabbing;
+}
+.pinterest .item.active {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.1);
+  width: 80vw;
+  height: 80vh;
+  z-index: 1001;
+}
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.3s;
+  z-index: 1000; /* giảm xuống */
+ 
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+/* hover không phá layout */
+.pinterest .item:hover {
+  filter: brightness(1.1);
+}
 .pinterest .item:nth-child(1) { grid-row: span 25; }
 .pinterest .item:nth-child(2) { grid-row: span 15; }
 .pinterest .item:nth-child(3) { grid-row: span 30; }
@@ -487,6 +590,7 @@ video {
   color: white;
   text-align: center;
 }
+
   </style>
 </head>
 <body>
@@ -517,12 +621,9 @@ video {
     </nav>
   
     <!-- GỘP NÚT + MENU -->
-    <div class="right">
-      <button class="navbar-btn" id="openBtn">Invitation</button>
-  
-      <div class="menu-toggle" id="menu-toggle">
-        ☰
-      </div>
+    <div class="nav-right">
+      <button class="menu-toggle">☰</button>
+      <button class="btn">Login</button>
     </div>
   
     <!-- Popup -->
@@ -614,7 +715,7 @@ video {
     <div class="item"><img src="z7627230038157_cb1683fb597699278be4a5d958e5081f.jpg" alt=""></div>
 
     <div class="item">
-      <video controls>
+      <video muted playsinline>
         <source src="7627230125656.mp4" type="video/mp4">
       </video>
     </div>
@@ -719,14 +820,331 @@ const btn = document.getElementById("openBtn");
       document.body.classList.remove("no-scroll");
     }
   });
-  const items = document.querySelectorAll('.pinterest .item');
+  
+const container = document.querySelector(".pinterest");
+const items = document.querySelectorAll(".pinterest .item");
 
-items.forEach(item => {
-  const img = item.querySelector('img, video');
-  img.onload = () => {
-    const rowHeight = 10;
-    const rowSpan = Math.ceil(img.offsetHeight / rowHeight);
-    item.style.gridRowEnd = `span ${rowSpan}`;
-  };
+let active = null;
+let offsetX = 0, offsetY = 0;
+let lastX = 0, lastY = 0;
+let physicsOn = false;
+let isDragging = false;
+
+window.addEventListener("mousemove", () => {
+  if (active) isDragging = true;
 });
+
+window.addEventListener("mouseup", () => {
+  setTimeout(() => isDragging = false, 50);
+});
+// =====================
+// 📌 1. Pinterest layout
+// =====================
+function layoutPinterest() {
+  const rect = container.getBoundingClientRect();
+
+  const gap = 16;
+  const targetWidth = 250;
+  const cols = Math.max(1, Math.floor(rect.width / (targetWidth + gap)));
+
+  const colHeights = Array(cols).fill(0);
+
+  items.forEach(item => {
+    const img = item.querySelector("img, video");
+
+    const naturalWidth = img.naturalWidth || img.videoWidth;
+    const naturalHeight = img.naturalHeight || img.videoHeight;
+
+    const scale = targetWidth / naturalWidth;
+
+    const width = targetWidth;
+    const height = naturalHeight * scale;
+
+    item.style.width = width + "px";
+    item.style.height = height + "px";
+
+    const minCol = colHeights.indexOf(Math.min(...colHeights));
+
+    const x = minCol * (targetWidth + gap);
+    const y = colHeights[minCol];
+
+    item.dataset.x = x;
+    item.dataset.y = y;
+
+    item.vx = 0;
+    item.vy = 0;
+
+    colHeights[minCol] += height + gap;
+  });
+
+  container.style.height = Math.max(...colHeights) + "px";
+
+  // 🔥 render lần đầu
+  items.forEach(item => {
+    item.style.transform = `translate(${item.dataset.x}px, ${item.dataset.y}px)`;
+  });
+}
+function waitMediaLoad(callback) {
+  let total = items.length;
+  let count = 0;
+
+  items.forEach(item => {
+    const media = item.querySelector("img, video");
+
+    if (!media) {
+      count++;
+      return;
+    }
+
+    if (media.tagName === "IMG") {
+      if (media.complete) count++;
+      else media.onload = () => {
+        count++;
+        if (count === total) callback();
+      };
+    }
+
+    if (media.tagName === "VIDEO") {
+      if (media.readyState >= 1) count++;
+      else media.onloadedmetadata = () => {
+        count++;
+        if (count === total) callback();
+      };
+    }
+  });
+
+  if (count === total) callback();
+}
+window.addEventListener("load", () => {
+  waitMediaLoad(() => {
+    layoutPinterest();
+  });
+});
+
+// =====================
+// 🖱️ 2. Drag
+// =====================
+items.forEach(item => {
+  item.addEventListener("mousedown", (e) => {
+  // 🔥 nếu bấm vào video thì KHÔNG drag
+  if (e.target.closest("video")) return;
+
+  const rect = container.getBoundingClientRect();
+
+  active = item;
+  physicsOn = true;
+
+  const x = parseFloat(item.dataset.x);
+  const y = parseFloat(item.dataset.y);
+
+  offsetX = e.clientX - rect.left - x;
+  offsetY = e.clientY - rect.top - y;
+
+  lastX = x;
+  lastY = y;
+
+  item.vx = 0;
+  item.vy = 0;
+});
+});
+
+window.addEventListener("mouseup", () => {
+  if (active) {
+    // 🔥 tạo quán tính
+    active.vx *= 1.5;
+    active.vy *= 1.5;
+  }
+  active = null;
+});
+
+window.addEventListener("mousemove", (e) => {
+  if (!active) return;
+
+  const rect = container.getBoundingClientRect();
+
+  let x = e.clientX - rect.left - offsetX;
+  let y = e.clientY - rect.top - offsetY;
+
+  const w = active.offsetWidth;
+  const h = active.offsetHeight;
+
+  x = Math.max(0, Math.min(x, rect.width - w));
+  y = Math.max(0, Math.min(y, rect.height - h));
+
+  active.vx = x - lastX;
+  active.vy = y - lastY;
+
+  lastX = x;
+  lastY = y;
+
+  active.dataset.x = x;
+  active.dataset.y = y;
+});
+
+// =====================
+// ⚡ 3. Physics
+// =====================
+function physics() {
+  const rect = container.getBoundingClientRect();
+  const maxSpeed = 15;
+
+  items.forEach(item => {
+    if (item === active) return;
+
+    let x = parseFloat(item.dataset.x);
+    let y = parseFloat(item.dataset.y);
+
+    x += item.vx;
+    y += item.vy;
+
+    const w = item.offsetWidth;
+    const h = item.offsetHeight;
+
+    // 🧱 tường
+    if (x <= 0) {
+      x = 0;
+      item.vx = Math.abs(item.vx);
+    }
+    if (x + w >= rect.width) {
+      x = rect.width - w;
+      item.vx = -Math.abs(item.vx);
+    }
+    if (y <= 0) {
+      y = 0;
+      item.vy = Math.abs(item.vy);
+    }
+    if (y + h >= rect.height) {
+      y = rect.height - h;
+      item.vy = -Math.abs(item.vy);
+    }
+
+    // ma sát
+    item.vx *= 0.98;
+    item.vy *= 0.98;
+
+    // giới hạn tốc
+    item.vx = Math.max(-maxSpeed, Math.min(item.vx, maxSpeed));
+    item.vy = Math.max(-maxSpeed, Math.min(item.vy, maxSpeed));
+
+    item.dataset.x = x;
+    item.dataset.y = y;
+  });
+
+  // 💥 va chạm
+  for (let i = 0; i < items.length; i++) {
+    for (let j = i + 1; j < items.length; j++) {
+      const a = items[i];
+      const b = items[j];
+
+      const ax = parseFloat(a.dataset.x);
+      const ay = parseFloat(a.dataset.y);
+      const bx = parseFloat(b.dataset.x);
+      const by = parseFloat(b.dataset.y);
+
+      const aw = a.offsetWidth;
+      const ah = a.offsetHeight;
+      const bw = b.offsetWidth;
+      const bh = b.offsetHeight;
+
+      const collide =
+        ax < bx + bw &&
+        ax + aw > bx &&
+        ay < by + bh &&
+        ay + ah > by;
+
+      if (collide) {
+        const dx = ax - bx;
+        const dy = ay - by;
+        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+
+        const nx = dx / dist;
+        const ny = dy / dist;
+
+        const p =
+          (a.vx * nx + a.vy * ny - b.vx * nx - b.vy * ny);
+
+        a.vx -= p * nx;
+        a.vy -= p * ny;
+        b.vx += p * nx;
+        b.vy += p * ny;
+      }
+    }
+  }
+
+  // 🎨 render
+  items.forEach(item => {
+    const x = parseFloat(item.dataset.x);
+    const y = parseFloat(item.dataset.y);
+
+    item.style.transform = `translate(${x}px, ${y}px)`;
+  });
+
+  requestAnimationFrame(physics);
+}
+
+physics();
+document.querySelectorAll(".pinterest video").forEach(video => {
+  // 🔥 chặn mousedown lan lên item
+  video.addEventListener("mousedown", (e) => {
+    e.stopPropagation();
+  });
+
+  video.addEventListener("click", (e) => {
+  e.stopPropagation();
+
+  if (video.paused) {
+    video.play().catch(() => {
+      console.log("bị chặn play");
+    });
+  } else {
+    video.pause();
+  }
+});
+});
+
+
+// tạo overlay
+const overlay = document.createElement("div");
+overlay.className = "overlay";
+document.body.appendChild(overlay);
+
+let activeItem = null;
+
+const grid = document.querySelector(".grid");
+
+grid.addEventListener("click", (e) => {
+  const item = e.target.closest(".item");
+  if (!item) return;
+
+  // nếu đang mở → đóng
+  if (item === activeItem) {
+    closeItem();
+    return;
+    e.stopPropagation();
+  }
+
+  openItem(item);
+});
+
+// click ngoài → đóng
+overlay.addEventListener("click", closeItem);
+document.addEventListener("click", (e) => {
+  if (!e.target.closest(".item.active")) closeItem();
+});
+
+function openItem(item) {
+  if (activeItem) closeItem();
+
+  item.classList.add("active");
+  overlay.classList.add("active");
+  activeItem = item;
+}
+
+function closeItem() {
+  if (!activeItem) return;
+
+  activeItem.classList.remove("active");
+  overlay.classList.remove("active");
+  activeItem = null;
+}
 </script>

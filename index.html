@@ -11,6 +11,9 @@
   padding: 0;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}
     body {
       margin: 0;
       font-family: "Segoe UI", sans-serif;
@@ -436,80 +439,121 @@ video {
   object-fit: contain;
 }
 .pinterest {
-  width: 100%;
-  margin-top: 100px;
-
-  column-count: 3;
-  column-gap: 20px;
+  padding: 20px;
 }
-.pinterest h2 {
-  width: 100%;
-  column-span: all; /* 🔥 tiêu đề không bị chia cột */
-  text-align: center;
-  margin-bottom: 20px;
-}
-.pinterest .grid {
-  margin-top: 100px;
-  display: grid;
-
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-
-  justify-content: center;
-}
-
-.pinterest .item {
-  break-inside: avoid;
-  margin-bottom: 20px;
-  border-radius: 12px;
-  overflow: hidden;
-}
-
-.pinterest img,
-.pinterest video {
+.pinterest-video {
   width: 100%;
   height: auto;
+  object-fit: contain; /* không crop */
+  display: block;
+  pointer-events: auto;
+  z-index: 9999;
+  border-radius: 10px;
+}
+.pinterest-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 180px)); /* cố định width item */
+  grid-auto-rows: 10px;
+  gap: 15px;
+  grid-auto-flow: dense; /* 🔥 lấp lỗ */
+  justify-content: center; /* cả grid ra giữa section */
+  justify-items: center;   /* item căn giữa trong ô grid */
+  position: relative;
+}
+.pinterest-grid .item::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+  background: linear-gradient(to top, rgba(0,0,0,0.4), transparent);
+}
+.cake-item {
+  justify-self: center;
+  height: 200px;
+  animation: floatCake 2s ease-in-out infinite;
+  
+  position: relative;
+ 
+  transform: translateX(-50%);
+  display: flex;
+}
+@keyframes floatCake {
+  0% { transform: translateY(10px); opacity: 0.6; }
+  50% { transform: translateY(-5px); opacity: 1; }
+  100% { transform: translateY(10px); opacity: 0.6; }
+}
+
+.pinterest-grid .item .play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 36px;
+  color: white;
+  text-shadow: 0 0 5px black;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+.pinterest-grid .item {
+  width: 180px;         /* trùng với minmax của grid */
+  display: block;
+  margin: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+.pinterest-grid .item.playing .play-overlay {
+  opacity: 0;
+}
+.pinterest h2 {
+  margin-bottom: 20px;
+}
+.pinterest .item {
+  display: inline-block;     /* cần để xếp column */
+  width: 100%;
+  margin-bottom: 20px;      /* khoảng cách dọc */
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+}
+.pinterest-grid .item img {
+  width: 100%;
+  display: block;
+  height: auto;
+  border-radius: 10px;
+}
+
+/* Video trong Pinterest */
+.pinterest-grid .item video {
+  width: 100%;
+  height: auto;      /* giữ tỉ lệ gốc */
+  max-height: none;  /* bỏ giới hạn height */
+  object-fit: contain; /* không crop, show full video */
+  border-radius: 10px;
   display: block;
 }
-
-
-.pinterest .item.active {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
-  width: 80vw;
-  height: 80vh;
-  z-index: 1001;
+@media screen and (max-width: 900px) {
+  .grid { column-count: 2; }
 }
-.pinterest .item.active {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) scale(1.1);
-  width: 80vw;
-  height: 80vh;
-  z-index: 1001;
+@media screen and (max-width: 600px) {
+  .grid { column-count: 1; }
 }
-.overlay {
-  position: fixed;
+.pinterest .item::after {
+  content: "";
+  position: absolute;
   inset: 0;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
   opacity: 0;
-  pointer-events: none;
-  transition: 0.3s;
-  z-index: 1000; /* giảm xuống */
- 
+  transition: 0.5s;
+  pointer-events: none;     /* overlay không chặn click */
 }
-
-.overlay.active {
+.pinterest .item:hover img {
+  transform: scale(1.05);
+}
+.pinterest .item:hover::after {
   opacity: 1;
-  pointer-events: all;
-}
-/* hover không phá layout */
-.pinterest .item:hover {
-  filter: brightness(1.1);
 }
 
 .luxury-gallery {
@@ -520,6 +564,9 @@ video {
   position: relative;
   overflow: hidden;
   border-radius: 20px;
+  display: inline-block;
+  width: 100%;
+  margin-bottom: 20px;
 }
 
 /* Ảnh */
@@ -532,9 +579,11 @@ video {
 }
 .item video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  
+  height: auto;         /* auto theo tỷ lệ */
+  object-fit: cover;    /* vẫn crop nếu muốn */
+  pointer-events: auto; /* bắt click chính xác */
+  z-index: 10;          /* trên overlay */
+  display: block;
 }
 
 /* Overlay */
@@ -545,6 +594,7 @@ video {
   background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
   opacity: 0;
   transition: 0.5s;
+  pointer-events: none;
 }
 
 /* Hover effect */
@@ -576,7 +626,124 @@ video {
   color: white;
   text-align: center;
 }
+#form {
+  padding: 80px 20px;
+  display: flex;
+  justify-content: center;
+ 
+}
+.form-box:hover {
+  transform: translateY(-3px);
+}
 
+/* title */
+.form-box h2 {
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* form layout */
+.form-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* input tinh tế */
+.form-box input,
+.form-box textarea {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: none;
+  outline: none;
+  background: #f5f5f5;
+  transition: 0.25s;
+  font-size: 14px;
+}
+
+/* focus glow */
+.form-box input:focus,
+.form-box textarea:focus {
+  background: #fff;
+  box-shadow: 0 0 0 2px #00000015;
+}
+
+/* textarea */
+.form-box textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+/* button xịn */
+.form-box button {
+  margin-top: 10px;
+  padding: 12px;
+  border-radius: 12px;
+  border: none;
+  background: black;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* hover button */
+.form-box button:hover {
+  background: #222;
+  transform: translateY(-1px);
+}
+
+/* click feel */
+.form-box button:active {
+  transform: scale(0.98);
+}
+#form h2 {
+  margin-bottom: 20px;
+}
+
+#form form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 400px;
+  margin: auto;
+}
+.form-box {
+  background: #1e2a38;
+  backdrop-filter: blur(10px);
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  transition: 0.3s;
+}
+#form input,
+#form textarea {
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+#form textarea {
+  min-height: 120px;
+  resize: none;
+}
+
+#form button {
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: black;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#form button:hover {
+  background: #333;
+}
   </style>
 </head>
 <body>
@@ -584,7 +751,7 @@ video {
 <!-- HERO -->
 <section class="heroes">
   <h1>Chúc mừng sinh nhật Superhero 🎉</h1>
-  <span>27 / 03 / 2008</span>
+  <span>27 / 03 / 2008 - 27/03/2026</span>
   <p style="max-width: 600px; margin-top: 30px;">
     Hôm nay là ngày thế giới được phép xoay quanh một người đặc biệt.
   </p>
@@ -600,10 +767,10 @@ video {
   
     <!-- MENU -->
     <nav class="nav">
-      <a href="#">Vy xinh đẹp</a>
-      <a href="#">Vy lậm anime</a>
-      <a href="#">Vy nghẹo game</a>
-      <a href="#">Vy tài năng</a>
+      <a href="#vxd">Vy xinh đẹp</a>
+      <a href="#vla">Vy lậm anime</a>
+      <a href="#vng">Vy nghẹo game</a>
+      <a href="#vtn">Vy tài năng</a>
     </nav>
   
     <!-- GỘP NÚT + MENU -->
@@ -641,7 +808,7 @@ video {
     
 
     <video id="myVideo" controls>
-      <source src="7654446294720.mp4" type="video/mp4">
+      <source src="76544462947200.mp4" type="video/mp4">
     </video>
 
   </div>
@@ -650,7 +817,7 @@ video {
 
 </section>
 <!-- GIỚI THIỆU -->
-<section class="gallery-section">
+<section class="gallery-section" id="vxd">
 
   <div class="title">
     <h2>Vy xinh đẹp</h2>
@@ -678,8 +845,9 @@ video {
 </section>
 
 <!-- DÒNG THỜI GIAN -->
-<section>
+<section id="vla">
   <h2>Vy lậm anime</h2>
+  <div class="line"></div>
   <div class="grid">
     <div class="item"><img src="z7647295068319_0bcc9d911702f81e7227822233ca75e3.jpg"></div>
     <div class="item"><img src="z7647299413899_faf58a89af45fbdf2fe723c38cfce2f4.jpg"></div>
@@ -692,50 +860,70 @@ video {
 </section>
 
 <!-- BỘ SƯU TẬP KHOẢNH KHẮC -->
-<section class="pinterest">
+<section id="vng">
+  <div class="pinterest">
   <h2>Vy nghẹo game</h2>
-
+  <div class="line"></div>
+<div class="pinterest-grid">
   <div class="item"><img src="z7627230045138_41f38921cd18577674455c9bbfa19cf9.jpg"></div>
   <div class="item"><img src="z7627230050551_f345fa4d95d7102083b7956b6b46942b.jpg"></div>
-  <div class="item"><img src="z7647276298825_993f90fb2e2e5dc5b1e44a97ee689c67.jpg"></div>
-  <div class="item"><img src="z7627230038157_cb1683fb597699278be4a5d958e5081f.jpg"></div>
-
+  
+  <div class="item"><img src="z7661301525268_1c59826c49ada9306117a1a51897d8e0.jpg">
+   </div>
+   <div class="cake-item">
+    <img src="image-removebg-preview (3).png">
+  </div>
   <div class="item">
-    <video muted playsinline>
+    <video class="pinterest-video" muted playsinline preload="metadata">
       <source src="7627230125656.mp4" type="video/mp4">
     </video>
+    <div class="play-overlay">▶</div>
   </div>
+  
+  <div class="item"><img src="z7627230038157_cb1683fb597699278be4a5d958e5081f.jpg"></div>
+</div>
 
-  <p style="text-align:center; opacity:0.7; margin-top:16px;"></p>
+</div>
 </section>
 
 <!-- ÂM NHẠC / VIDEO -->
-<section>
-  <h2>Âm thanh của ngày hôm nay</h2>
-  <!-- CHỖ NÀY: chèn audio hoặc video -->
+<section id="vtn">
+  <h2>Vy tài năng</h2>
+  <div class="line"></div>
+  <div class="item">
+    <video class="pinterest-video" muted playsinline preload="metadata">
+      <source src="76471774525733.mp4" type="video/mp4">
+    </video>
+    <div class="play-overlay">▶</div>
+  </div>
   <!-- ví dụ: <audio controls src="..."></audio> -->
-  <p style="opacity:0.6">[CHÈN AUDIO / VIDEO Ở ĐÂY]</p>
+  
 </section>
 
 <!-- LỜI NHẮN -->
-<section>
-  <h2>Lời nhắn gửi</h2>
-  <p>
-    <!-- CHỖ NÀY: lời chúc của bạn bè / của chính mày gửi cho tương lai -->
-    [CHÈN LỜI NHẮN Ở ĐÂY]
-  </p>
+<section id="form">
+  <div class="form-box">
+  <h2>Gửi lời nhắn cho Vy</h2>
+
+  <!-- 🔥 THAY LINK Ở action -->
+  <form action="https://formspree.io/f/xpqowzka" method="POST">
+    
+    <input type="text" name="name" placeholder="Bạn muốn được gọi là gì" required>
+
+    <input type="text" name="yourname" placeholder="Bạn muốn gọi tôi là gì" required>
+
+    <textarea type="text" name="message" placeholder="Có muốn nói gì với tôi không..." required></textarea>
+
+    <button type="submit">Gửi </button>
+  </form>
+</div>
 </section>
 
 <!-- KẾT -->
-<section>
-  <h2>Kết</h2>
-  <p style="text-align:center">
-    Chúc mày lớn lên theo cách mày muốn, không theo khuôn nào cả.
-  </p>
-</section>
+
 
 <footer>
-  Trang web sinh nhật – tạo riêng cho Ojou-sama ✨
+  Trùng sinh - Tôi trở thành superhero ✨
 </footer>
 
 </body>
@@ -757,12 +945,7 @@ function openVideo(e) {
   videoPopup.classList.add("show");
 
   // 👉 thử fullscreen
-  if (video.requestFullscreen) {
-    video.requestFullscreen();
-  } else if (video.webkitEnterFullscreen) {
-    // iPhone Safari
-    video.webkitEnterFullscreen();
-  }
+  
 
   // 👉 delay rồi play
   setTimeout(() => {
@@ -800,331 +983,104 @@ const btn = document.getElementById("openBtn");
       document.body.classList.remove("no-scroll");
     }
   });
+
+  document.querySelectorAll('.item video').forEach(video => {
+  video.addEventListener('click', e => {
+    e.stopPropagation();
+    video.muted = false; // bật tiếng
+    if(video.paused) video.play().catch(err => console.log(err));
+    else video.pause();
+  });
+});
+//layout pinterest
+const pinterestItems = document.querySelectorAll(".pinterest-grid .item");
+
+function resizePinterestItem(item) {
+  const grid = document.querySelector(".pinterest-grid");
+  const items = Array.from(document.querySelectorAll(".grid .item"));
+
+  const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+  const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('gap'));
+  const content = item.querySelector('img, video');
+  const rowSpan = Math.ceil((content.getBoundingClientRect().height + rowGap) / (rowHeight + rowGap));
   
-const container = document.querySelector(".pinterest");
-const items = document.querySelectorAll(".pinterest .item");
-
-let active = null;
-let offsetX = 0, offsetY = 0;
-let lastX = 0, lastY = 0;
-let physicsOn = false;
-let isDragging = false;
-
-window.addEventListener("mousemove", () => {
-  if (active) isDragging = true;
-});
-
-window.addEventListener("mouseup", () => {
-  setTimeout(() => isDragging = false, 50);
-});
-// =====================
-// 📌 1. Pinterest layout
-// =====================
-function layoutPinterest() {
-  const rect = container.getBoundingClientRect();
-
-  const gap = 16;
-  const targetWidth = 250;
-  const cols = Math.max(1, Math.floor(rect.width / (targetWidth + gap)));
-
-  const colHeights = Array(cols).fill(0);
-
-  items.forEach(item => {
-    const img = item.querySelector("img, video");
-
-    const naturalWidth = img.naturalWidth || img.videoWidth;
-    const naturalHeight = img.naturalHeight || img.videoHeight;
-
-    const scale = targetWidth / naturalWidth;
-
-    const width = targetWidth;
-    const height = naturalHeight * scale;
-
-    item.style.width = width + "px";
-    item.style.height = height + "px";
-
-    const minCol = colHeights.indexOf(Math.min(...colHeights));
-
-    const x = minCol * (targetWidth + gap);
-    const y = colHeights[minCol];
-
-    item.dataset.x = x;
-    item.dataset.y = y;
-
-    item.vx = 0;
-    item.vy = 0;
-
-    colHeights[minCol] += height + gap;
-  });
-
-  container.style.height = Math.max(...colHeights) + "px";
-
-  // 🔥 render lần đầu
-  items.forEach(item => {
-    item.style.transform = `translate(${item.dataset.x}px, ${item.dataset.y}px)`;
-  });
-}
-function waitMediaLoad(callback) {
-  let total = items.length;
-  let count = 0;
-
-  items.forEach(item => {
-    const media = item.querySelector("img, video");
-
-    if (!media) {
-      count++;
-      return;
-    }
-
-    if (media.tagName === "IMG") {
-      if (media.complete) count++;
-      else media.onload = () => {
-        count++;
-        if (count === total) callback();
-      };
-    }
-
-    if (media.tagName === "VIDEO") {
-      if (media.readyState >= 1) count++;
-      else media.onloadedmetadata = () => {
-        count++;
-        if (count === total) callback();
-      };
-    }
-  });
-
-  if (count === total) callback();
-}
-window.addEventListener("load", () => {
-  waitMediaLoad(() => {
-    layoutPinterest();
-  });
-});
-
-// =====================
-// 🖱️ 2. Drag
-// =====================
-items.forEach(item => {
-  item.addEventListener("mousedown", (e) => {
-  // 🔥 nếu bấm vào video thì KHÔNG drag
-  if (e.target.closest("video")) return;
-
-  const rect = container.getBoundingClientRect();
-
-  active = item;
-  physicsOn = true;
-
-  const x = parseFloat(item.dataset.x);
-  const y = parseFloat(item.dataset.y);
-
-  offsetX = e.clientX - rect.left - x;
-  offsetY = e.clientY - rect.top - y;
-
-  lastX = x;
-  lastY = y;
-
-  item.vx = 0;
-  item.vy = 0;
-});
-});
-
-window.addEventListener("mouseup", () => {
-  if (active) {
-    // 🔥 tạo quán tính
-    active.vx *= 1.5;
-    active.vy *= 1.5;
-  }
-  active = null;
-});
-
-window.addEventListener("mousemove", (e) => {
-  if (!active) return;
-
-  const rect = container.getBoundingClientRect();
-
-  let x = e.clientX - rect.left - offsetX;
-  let y = e.clientY - rect.top - offsetY;
-
-  const w = active.offsetWidth;
-  const h = active.offsetHeight;
-
-  x = Math.max(0, Math.min(x, rect.width - w));
-  y = Math.max(0, Math.min(y, rect.height - h));
-
-  active.vx = x - lastX;
-  active.vy = y - lastY;
-
-  lastX = x;
-  lastY = y;
-
-  active.dataset.x = x;
-  active.dataset.y = y;
-});
-
-// =====================
-// ⚡ 3. Physics
-// =====================
-function physics() {
-  const rect = container.getBoundingClientRect();
-  const maxSpeed = 15;
-
-  items.forEach(item => {
-    if (item === active) return;
-
-    let x = parseFloat(item.dataset.x);
-    let y = parseFloat(item.dataset.y);
-
-    x += item.vx;
-    y += item.vy;
-
-    const w = item.offsetWidth;
-    const h = item.offsetHeight;
-
-    // 🧱 tường
-    if (x <= 0) {
-      x = 0;
-      item.vx = Math.abs(item.vx);
-    }
-    if (x + w >= rect.width) {
-      x = rect.width - w;
-      item.vx = -Math.abs(item.vx);
-    }
-    if (y <= 0) {
-      y = 0;
-      item.vy = Math.abs(item.vy);
-    }
-    if (y + h >= rect.height) {
-      y = rect.height - h;
-      item.vy = -Math.abs(item.vy);
-    }
-
-    // ma sát
-    item.vx *= 0.98;
-    item.vy *= 0.98;
-
-    // giới hạn tốc
-    item.vx = Math.max(-maxSpeed, Math.min(item.vx, maxSpeed));
-    item.vy = Math.max(-maxSpeed, Math.min(item.vy, maxSpeed));
-
-    item.dataset.x = x;
-    item.dataset.y = y;
-  });
-
-  // 💥 va chạm
-  for (let i = 0; i < items.length; i++) {
-    for (let j = i + 1; j < items.length; j++) {
-      const a = items[i];
-      const b = items[j];
-
-      const ax = parseFloat(a.dataset.x);
-      const ay = parseFloat(a.dataset.y);
-      const bx = parseFloat(b.dataset.x);
-      const by = parseFloat(b.dataset.y);
-
-      const aw = a.offsetWidth;
-      const ah = a.offsetHeight;
-      const bw = b.offsetWidth;
-      const bh = b.offsetHeight;
-
-      const collide =
-        ax < bx + bw &&
-        ax + aw > bx &&
-        ay < by + bh &&
-        ay + ah > by;
-
-      if (collide) {
-        const dx = ax - bx;
-        const dy = ay - by;
-        const dist = Math.sqrt(dx * dx + dy * dy) || 1;
-
-        const nx = dx / dist;
-        const ny = dy / dist;
-
-        const p =
-          (a.vx * nx + a.vy * ny - b.vx * nx - b.vy * ny);
-
-        a.vx -= p * nx;
-        a.vy -= p * ny;
-        b.vx += p * nx;
-        b.vy += p * ny;
-      }
-    }
-  }
-
-  // 🎨 render
-  items.forEach(item => {
-    const x = parseFloat(item.dataset.x);
-    const y = parseFloat(item.dataset.y);
-
-    item.style.transform = `translate(${x}px, ${y}px)`;
-  });
-
-  requestAnimationFrame(physics);
+  item.style.gridRowEnd = "span " + rowSpan;
+  
 }
 
-physics();
-document.querySelectorAll(".pinterest video").forEach(video => {
-  // 🔥 chặn mousedown lan lên item
-  video.addEventListener("mousedown", (e) => {
-    e.stopPropagation();
-  });
-
-  video.addEventListener("click", (e) => {
-  e.stopPropagation();
-
-  if (video.paused) {
-    video.play().catch(() => {
-      console.log("bị chặn play");
+pinterestItems.forEach(item => {
+  const content = item.querySelector('img, video');
+  if(content) {
+    content.addEventListener('load', () => {
+      resizePinterestItem(item);
+      // ✅ gọi ở đây
     });
-  } else {
-    video.pause();
+
+    resizePinterestItem(item);
   }
 });
+
+window.addEventListener('resize', () => {
+  pinterestItems.forEach(item => resizePinterestItem(item));
+  
 });
 
+const videoItems = document.querySelectorAll(".pinterest-grid .item video");
 
-// tạo overlay
-const overlay = document.createElement("div");
-overlay.className = "overlay";
-document.body.appendChild(overlay);
+videoItems.forEach(video => {
+  video.addEventListener('loadedmetadata', () => {
+    const item = video.parentElement;
+    const grid = document.querySelector(".pinterest-grid");
+    const rowHeight = parseInt(window.getComputedStyle(grid).getPropertyValue('grid-auto-rows'));
+    const rowGap = parseInt(window.getComputedStyle(grid).getPropertyValue('gap'));
+    
+    // Lấy chiều cao thật sau khi video scale theo width 100%
+    const videoHeight = video.clientHeight;
 
-let activeItem = null;
-
-const grid = document.querySelector(".grid");
-
-grid.addEventListener("click", (e) => {
-  const item = e.target.closest(".item");
-  if (!item) return;
-
-  // nếu đang mở → đóng
-  if (item === activeItem) {
-    closeItem();
-    return;
-    e.stopPropagation();
-  }
-
-  openItem(item);
+    const rowSpan = Math.ceil((videoHeight + rowGap) / (rowHeight + rowGap));
+    item.style.gridRowEnd = "span " + rowSpan;
+  });
 });
+videoItems.forEach(video => {
+  const item = video.parentElement;
+  const overlay = item.querySelector('.play-overlay');
 
-// click ngoài → đóng
-overlay.addEventListener("click", closeItem);
-document.addEventListener("click", (e) => {
-  if (!e.target.closest(".item.active")) closeItem();
+  // Khi click vào video, chỉ để overlay biến mất/hiện
+  video.addEventListener('play', () => {
+    item.classList.add('playing'); // overlay chìm xuống
+  });
+
+  video.addEventListener('pause', () => {
+    item.classList.remove('playing'); // overlay hiện lại
+  });
+
+  video.addEventListener('ended', () => {
+    item.classList.remove('playing'); // overlay hiện lại khi video kết thúc
+  });
 });
+function updateCakePosition() {
+  const items = Array.from(document.querySelectorAll(".pinterest-grid .item:not(.cake-item)"));
+  const cake = document.querySelector(".cake-item");
 
-function openItem(item) {
-  if (activeItem) closeItem();
+  if (!cake || items.length === 0) return;
 
-  item.classList.add("active");
-  overlay.classList.add("active");
-  activeItem = item;
+  let lowest = items[0];
+  let maxBottom = 0;
+
+  items.forEach(item => {
+    const rect = item.getBoundingClientRect();
+    if (rect.bottom > maxBottom) {
+      maxBottom = rect.bottom;
+      lowest = item;
+    }
+  });
+
+  // 🔥 giữ logic cũ
+  lowest.parentNode.insertBefore(cake, lowest.nextSibling);
+
+ 
 }
+window.addEventListener("load", updateCakePosition);
+window.addEventListener("resize", updateCakePosition);
 
-function closeItem() {
-  if (!activeItem) return;
-
-  activeItem.classList.remove("active");
-  overlay.classList.remove("active");
-  activeItem = null;
-}
 </script>

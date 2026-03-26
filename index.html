@@ -436,45 +436,51 @@ video {
   object-fit: contain;
 }
 .pinterest {
-  position: relative;
   width: 100%;
-  overflow: visible;
+  margin-top: 100px;
+
+  column-count: 3;
+  column-gap: 20px;
+}
+.pinterest h2 {
+  width: 100%;
+  column-span: all; /* 🔥 tiêu đề không bị chia cột */
+  text-align: center;
+  margin-bottom: 20px;
 }
 .pinterest .grid {
-  
-  margin-top: 100px; /* chỉnh tùy header cao bao nhiêu */
+  margin-top: 100px;
   display: grid;
-  grid-template-columns: repeat(3, 250px); /* hoặc auto */
-  justify-content: center; /* 🔥 căn giữa ngang */
+
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 20px;
 
+  justify-content: center;
 }
-.pinterest .item {
-  position: absolute;
-  top: 0;
-  left: 0;
 
+.pinterest .item {
+  break-inside: avoid;
+  margin-bottom: 20px;
   border-radius: 12px;
   overflow: hidden;
-  cursor: grab;
 }
 
-.pinterest .item img {
+.pinterest img,
+.pinterest video {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
+  height: auto;
+  display: block;
 }
 
-.pinterest .item video {
-  width: 100%;
-  height: auto;   /* 🔥 giữ control */
-  cursor: pointer;
-  pointer-events: auto;
-  object-fit: cover;
-}
 
-.pinterest .item:active {
-  cursor: grabbing;
+.pinterest .item.active {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1.1);
+  width: 80vw;
+  height: 80vh;
+  z-index: 1001;
 }
 .pinterest .item.active {
   position: fixed;
@@ -505,11 +511,7 @@ video {
 .pinterest .item:hover {
   filter: brightness(1.1);
 }
-.pinterest .item:nth-child(1) { grid-row: span 25; }
-.pinterest .item:nth-child(2) { grid-row: span 15; }
-.pinterest .item:nth-child(3) { grid-row: span 30; }
-.pinterest .item:nth-child(4) { grid-row: span 18; }
-.pinterest .item:nth-child(5) { grid-row: span 22; }
+
 .luxury-gallery {
   padding: 60px 10%;
   background: #111;
@@ -693,22 +695,18 @@ video {
 <section class="pinterest">
   <h2>Vy nghẹo game</h2>
 
-  <div class="grid">
-    <div class="item"><img src="z7627230045138_41f38921cd18577674455c9bbfa19cf9.jpg" alt=""></div>
-    <div class="item"><img src="z7627230050551_f345fa4d95d7102083b7956b6b46942b.jpg" alt=""></div>
-    <div class="item"><img src="z7647276298825_993f90fb2e2e5dc5b1e44a97ee689c67.jpg" alt=""></div>
-    <div class="item"><img src="z7627230038157_cb1683fb597699278be4a5d958e5081f.jpg" alt=""></div>
+  <div class="item"><img src="z7627230045138_41f38921cd18577674455c9bbfa19cf9.jpg"></div>
+  <div class="item"><img src="z7627230050551_f345fa4d95d7102083b7956b6b46942b.jpg"></div>
+  <div class="item"><img src="z7647276298825_993f90fb2e2e5dc5b1e44a97ee689c67.jpg"></div>
+  <div class="item"><img src="z7627230038157_cb1683fb597699278be4a5d958e5081f.jpg"></div>
 
-    <div class="item">
-      <video muted playsinline>
-        <source src="7627230125656.mp4" type="video/mp4">
-      </video>
-    </div>
+  <div class="item">
+    <video muted playsinline>
+      <source src="7627230125656.mp4" type="video/mp4">
+    </video>
   </div>
 
-  <p style="text-align:center; opacity:0.7; margin-top:16px;">
-    <!-- chú thích -->
-  </p>
+  <p style="text-align:center; opacity:0.7; margin-top:16px;"></p>
 </section>
 
 <!-- ÂM NHẠC / VIDEO -->
@@ -744,13 +742,10 @@ video {
 </html>
 <script>
 const toggle = document.getElementById("menu-toggle");
-function toggleMenu() {
-  document.getElementById("menu-toggle").classList.toggle("active");
-}
 const nav = document.querySelector(".nav");
 
 toggle.addEventListener("click", () => {
-  nav.classList.toggle("active");
+  nav.classList.toggle("active"); // chỉ toggle menu thôi
 });
 src="js/script.js"
 function openVideo(e) {
